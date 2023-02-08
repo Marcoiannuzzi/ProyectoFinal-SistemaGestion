@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal_SistemaGestion.Models;
+using ProyectoFinal_SistemaGestion.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,34 +12,39 @@ namespace ProyectoFinal_SistemaGestion.Controllers
     {
         // GET: api/<VentasController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Venta> Get()
         {
-            return new string[] { "value1", "value2" };
+            var listaVentas = VentaRepository.GetVentas();
+            return listaVentas;
         }
 
         // GET api/<VentasController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("byId")]
+        public IEnumerable<Venta> Get(long id)
         {
-            return "value";
+            var listaVentas = VentaRepository.GetVentas(id);
+            return listaVentas;
         }
 
         // POST api/<VentasController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Crear")]
+        public void Post([FromBody] Venta venta)
         {
+            VentaRepository.CreateVenta(venta);
         }
 
         // PUT api/<VentasController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("Actualizar")]
+        public void Put([FromBody] Venta venta)
         {
+            VentaRepository.UpdateVenta(venta);
         }
 
         // DELETE api/<VentasController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("Borrar")]
+        public void Delete(long id)
         {
+            VentaRepository.DeleteVenta(id);
         }
     }
 }
