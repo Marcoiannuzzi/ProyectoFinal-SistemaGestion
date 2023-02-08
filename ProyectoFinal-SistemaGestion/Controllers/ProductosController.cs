@@ -27,21 +27,24 @@ namespace ProyectoFinal_SistemaGestion.Controllers
         }
 
         // POST api/<ProductosController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Crear")]
+        public void Post([FromBody] Producto producto)
         {
+            ProductoRepository.CreateProducto(producto);
         }
 
         // PUT api/<ProductosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("Actualizar")]
+        public void Put([FromBody] Producto producto)
         {
+            ProductoRepository.UpdateProducto(producto);
         }
 
         // DELETE api/<ProductosController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("Borrar")]
         public void Delete(int id)
         {
+            ProductoRepository.DeleteProducto(id);
         }
     }
 }

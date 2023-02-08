@@ -79,16 +79,45 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (var connection = new SqlConnection(connectionString))
             {
+                SqlCommand cmd = new SqlCommand("INSERT INTO Producto (Descripciones,Costo, PrecioVenta,Stock, IdUsuario) VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario)", connection);
+                var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
+                var costo = new SqlParameter("Costo", producto.Costo);
+                var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
+                var stock = new SqlParameter("Stock", producto.Stock);
+                var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
+                cmd.Parameters.Add(descripciones);
+                cmd.Parameters.Add(costo);
+                cmd.Parameters.Add(precioVenta);
+                cmd.Parameters.Add(stock);
+                cmd.Parameters.Add(idUsuario);
 
-
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
             }
         }
 
-        public static void UpdateProducto(int id, Producto producto)
+        public static void UpdateProducto(Producto producto)
         {
             using (var connection = new SqlConnection(connectionString))
             {
+                SqlCommand cmd = new SqlCommand("UPDATE Producto SET Descripciones = @Descripciones,Costo = @Costo, PrecioVenta = @PrecioVenta,Stock = @Stock, IdUsuario = @IdUsuario WHERE Id =@id", connection);
+                var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
+                var costo = new SqlParameter("Costo", producto.Costo);
+                var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
+                var stock = new SqlParameter("Stock", producto.Stock);
+                var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
+                var id = new SqlParameter("Id", producto.Id);
+                cmd.Parameters.Add(descripciones);
+                cmd.Parameters.Add(costo);
+                cmd.Parameters.Add(precioVenta);
+                cmd.Parameters.Add(stock);
+                cmd.Parameters.Add(idUsuario);
+                cmd.Parameters.Add(id);
 
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
 
             }
         }
@@ -97,8 +126,13 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (var connection = new SqlConnection(connectionString))
             {
+                SqlCommand cmd = new SqlCommand("DELETE FROM Producto WHERE Id=@id", connection);
+                SqlParameter param = new SqlParameter("id", id);
+                cmd.Parameters.Add(param);
 
-
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }
