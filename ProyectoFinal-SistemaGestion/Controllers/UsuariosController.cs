@@ -19,6 +19,14 @@ namespace ProyectoFinal_SistemaGestion.Controllers
         }
 
         // GET api/<UsuariosController>/5
+        [HttpGet("byUsusarioyContraseña")]
+        public Usuario Get(string user, string pass)
+        {
+            var usuario = UsuarioRepository.GetUsuario(user, pass);
+            return usuario;
+        }
+
+        // GET api/<UsuariosController>/5
         [HttpGet("byId")]
         public Usuario Get(long id)
         {
