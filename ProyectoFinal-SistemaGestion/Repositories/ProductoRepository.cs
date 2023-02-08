@@ -12,29 +12,36 @@ namespace ProyectoFinal_SistemaGestion.Repositories
 
             using (var connection = new SqlConnection(connectionString))
             {
-                SqlCommand comando = new SqlCommand("SELECT * FROM Producto", connection);
-                connection.Open();
-                SqlDataReader reader = comando.ExecuteReader();
-
-                List<Producto> list = new List<Producto>();
-
-                if (reader.HasRows)
+                try
                 {
-                    while (reader.Read())
+                    SqlCommand comando = new SqlCommand("SELECT * FROM Producto", connection);
+                    connection.Open();
+                    SqlDataReader reader = comando.ExecuteReader();
+
+                    List<Producto> list = new List<Producto>();
+
+                    if (reader.HasRows)
                     {
-                        Producto temporalProd = new Producto()
+                        while (reader.Read())
                         {
-                            Id = reader.GetInt64(0),
-                            Descripciones = reader.GetString(1),
-                            Costo = reader.GetDecimal(2),
-                            PrecioDeVenta = reader.GetDecimal(3),
-                            Stock = reader.GetInt32(4),
-                            IdUsuario = reader.GetInt64(5),
-                        };
-                        list.Add(temporalProd);
+                            Producto temporalProd = new Producto()
+                            {
+                                Id = reader.GetInt64(0),
+                                Descripciones = reader.GetString(1),
+                                Costo = reader.GetDecimal(2),
+                                PrecioDeVenta = reader.GetDecimal(3),
+                                Stock = reader.GetInt32(4),
+                                IdUsuario = reader.GetInt64(5),
+                            };
+                            list.Add(temporalProd);
+                        }
                     }
+                    return list;
                 }
-                return list;
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
 
         }
@@ -43,34 +50,41 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @id", connection);
-                var param = new SqlParameter("id", idUsuario);
-                comando.Parameters.Add(param);
-
-
-                connection.Open();
-                SqlDataReader reader = comando.ExecuteReader();
-
-
-                List<Producto> list = new List<Producto>();
-
-                if (reader.HasRows)
+                try
                 {
-                    while (reader.Read())
+                    SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @id", connection);
+                    var param = new SqlParameter("id", idUsuario);
+                    comando.Parameters.Add(param);
+
+
+                    connection.Open();
+                    SqlDataReader reader = comando.ExecuteReader();
+
+
+                    List<Producto> list = new List<Producto>();
+
+                    if (reader.HasRows)
                     {
-                        Producto temporalProd = new Producto()
+                        while (reader.Read())
                         {
-                            Id = reader.GetInt64(0),
-                            Descripciones = reader.GetString(1),
-                            Costo = reader.GetDecimal(2),
-                            PrecioDeVenta = reader.GetDecimal(3),
-                            Stock = reader.GetInt32(4),
-                            IdUsuario = reader.GetInt64(5),
-                        };
-                        list.Add(temporalProd);
+                            Producto temporalProd = new Producto()
+                            {
+                                Id = reader.GetInt64(0),
+                                Descripciones = reader.GetString(1),
+                                Costo = reader.GetDecimal(2),
+                                PrecioDeVenta = reader.GetDecimal(3),
+                                Stock = reader.GetInt32(4),
+                                IdUsuario = reader.GetInt64(5),
+                            };
+                            list.Add(temporalProd);
+                        }
                     }
+                    return list;
                 }
-                return list;
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                };
             }
 
         }
@@ -79,21 +93,26 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Producto (Descripciones,Costo, PrecioVenta,Stock, IdUsuario) VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario)", connection);
-                var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
-                var costo = new SqlParameter("Costo", producto.Costo);
-                var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
-                var stock = new SqlParameter("Stock", producto.Stock);
-                var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
-                cmd.Parameters.Add(descripciones);
-                cmd.Parameters.Add(costo);
-                cmd.Parameters.Add(precioVenta);
-                cmd.Parameters.Add(stock);
-                cmd.Parameters.Add(idUsuario);
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Producto (Descripciones,Costo, PrecioVenta,Stock, IdUsuario) VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario)", connection);
+                    var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
+                    var costo = new SqlParameter("Costo", producto.Costo);
+                    var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
+                    var stock = new SqlParameter("Stock", producto.Stock);
+                    var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
+                    cmd.Parameters.Add(descripciones);
+                    cmd.Parameters.Add(costo);
+                    cmd.Parameters.Add(precioVenta);
+                    cmd.Parameters.Add(stock);
+                    cmd.Parameters.Add(idUsuario);
 
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); };
             }
         }
 
@@ -101,23 +120,28 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Producto SET Descripciones = @Descripciones,Costo = @Costo, PrecioVenta = @PrecioVenta,Stock = @Stock, IdUsuario = @IdUsuario WHERE Id =@id", connection);
-                var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
-                var costo = new SqlParameter("Costo", producto.Costo);
-                var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
-                var stock = new SqlParameter("Stock", producto.Stock);
-                var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
-                var id = new SqlParameter("Id", producto.Id);
-                cmd.Parameters.Add(descripciones);
-                cmd.Parameters.Add(costo);
-                cmd.Parameters.Add(precioVenta);
-                cmd.Parameters.Add(stock);
-                cmd.Parameters.Add(idUsuario);
-                cmd.Parameters.Add(id);
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("UPDATE Producto SET Descripciones = @Descripciones,Costo = @Costo, PrecioVenta = @PrecioVenta,Stock = @Stock, IdUsuario = @IdUsuario WHERE Id =@id", connection);
+                    var descripciones = new SqlParameter("Descripciones", producto.Descripciones);
+                    var costo = new SqlParameter("Costo", producto.Costo);
+                    var precioVenta = new SqlParameter("PrecioVenta", producto.PrecioDeVenta);
+                    var stock = new SqlParameter("Stock", producto.Stock);
+                    var idUsuario = new SqlParameter("IdUsuario", producto.IdUsuario);
+                    var id = new SqlParameter("Id", producto.Id);
+                    cmd.Parameters.Add(descripciones);
+                    cmd.Parameters.Add(costo);
+                    cmd.Parameters.Add(precioVenta);
+                    cmd.Parameters.Add(stock);
+                    cmd.Parameters.Add(idUsuario);
+                    cmd.Parameters.Add(id);
 
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); };
 
             }
         }
@@ -126,13 +150,18 @@ namespace ProyectoFinal_SistemaGestion.Repositories
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM Producto WHERE Id=@id", connection);
-                SqlParameter param = new SqlParameter("id", id);
-                cmd.Parameters.Add(param);
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("DELETE FROM Producto WHERE Id=@id", connection);
+                    SqlParameter param = new SqlParameter("id", id);
+                    cmd.Parameters.Add(param);
 
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); };
             }
         }
     }

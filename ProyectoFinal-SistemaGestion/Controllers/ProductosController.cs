@@ -19,7 +19,7 @@ namespace ProyectoFinal_SistemaGestion.Controllers
         }
 
         // GET api/<ProductosController>/5
-        [HttpGet("byId")]
+        [HttpGet("byUserId")]
         public IEnumerable<Producto> Get(long idUsuario)
         {
             var resp = ProductoRepository.GetProductosbyId(idUsuario);
