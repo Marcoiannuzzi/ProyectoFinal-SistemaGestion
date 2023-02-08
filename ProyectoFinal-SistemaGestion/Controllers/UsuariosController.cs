@@ -33,7 +33,7 @@ namespace ProyectoFinal_SistemaGestion.Controllers
             UsuarioRepository.CreateUsuario(usuario);
         }
 
-        // PUT api/<UsuariosController>/5
+        // PUT api/<UsuariosController>
         [HttpPut("Editar")]
         public void Put([FromBody] Usuario usuario)
         {

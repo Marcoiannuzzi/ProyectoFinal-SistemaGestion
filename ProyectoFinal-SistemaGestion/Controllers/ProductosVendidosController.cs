@@ -10,38 +10,42 @@ namespace ProyectoFinal_SistemaGestion.Controllers
     [ApiController]
     public class ProductosVendidosController : ControllerBase
     {
-
         // GET: api/<ProductosVendidosController>
-        [HttpGet("byId")]
+        [HttpGet()]
+        public IEnumerable<ProductoVendido> Get()
+        {
+            var listaProductosVendidos = ProductoVendidoRepository.GetProductosVendidos();
+            return listaProductosVendidos;
+        }
+
+        // GET api/<ProductosVendidosController>/5
+        [HttpGet("byIdDeVenta")]
         public IEnumerable<ProductoVendido> Get(long id)
         {
             var resp = ProductoVendidoRepository.GetProductosVendidos(id);
             return resp;
         }
 
-        // GET api/<ProductosVendidosController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/<ProductosVendidosController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Crear")]
+        public void Post([FromBody] ProductoVendido prod)
         {
+            ProductoVendidoRepository.Create(prod);
         }
 
-        // PUT api/<ProductosVendidosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<ProductosVendidosController>
+        [HttpPut("Actualizar")]
+        public void Put([FromBody] ProductoVendido prod)
         {
+            ProductoVendidoRepository.Update(prod);
         }
 
-        // DELETE api/<ProductosVendidosController>/5
-        [HttpDelete("{id}")]
+        // DELETE api/<ProductosVendidosController>
+        [HttpDelete("Eliminar")]
         public void Delete(int id)
         {
+            ProductoVendidoRepository.Delete(id);
         }
     }
 }

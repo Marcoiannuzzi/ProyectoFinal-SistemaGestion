@@ -69,5 +69,61 @@ namespace ProyectoFinal_SistemaGestion.Repositories
 
         }
 
+        public static void Create(ProductoVendido productoVendido)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@Stock, @IdProducto, @IdVenta)", connection);
+                var stock = new SqlParameter("Stock", productoVendido.Stock);
+                var idproducto = new SqlParameter("IdProducto", productoVendido.IdProducto);
+                var idVenta = new SqlParameter("IdVenta", productoVendido.IdVenta);
+                cmd.Parameters.Add(stock);
+                cmd.Parameters.Add(idproducto);
+                cmd.Parameters.Add(idVenta);
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+
+
+        }
+
+        public static void Update(ProductoVendido productoVendido)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE ProductoVendido SET Stock = @Stock, IdProducto =@IdProducto, IdVenta=@IdVenta WHERE Id = @id", connection);
+                var stock = new SqlParameter("Stock", productoVendido.Stock);
+                var idproducto = new SqlParameter("IdProducto", productoVendido.IdProducto);
+                var idVenta = new SqlParameter("IdVenta", productoVendido.IdVenta);
+                var id = new SqlParameter("id", productoVendido.Id);
+                cmd.Parameters.Add(stock);
+                cmd.Parameters.Add(idproducto);
+                cmd.Parameters.Add(idVenta);
+                cmd.Parameters.Add(id);
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+
+        }
+
+        public static void Delete (long id) 
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DELETE FROM ProductoVendido WHERE Id = @id", connection);
+                var idProducto = new SqlParameter("id", id);
+                cmd.Parameters.Add(idProducto);
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+
+        }
+
     }
 }

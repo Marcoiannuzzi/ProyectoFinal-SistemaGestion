@@ -18,8 +18,8 @@ namespace ProyectoFinal_SistemaGestion.Controllers
             return listaVentas;
         }
 
-        // GET api/<VentasController>/5
-        [HttpGet("byId")]
+        // GET api/<VentasController>
+        [HttpGet("byIdDeUsuario")]
         public IEnumerable<Venta> Get(long id)
         {
             var listaVentas = VentaRepository.GetVentas(id);
@@ -33,14 +33,14 @@ namespace ProyectoFinal_SistemaGestion.Controllers
             VentaRepository.CreateVenta(venta);
         }
 
-        // PUT api/<VentasController>/5
+        // PUT api/<VentasController>
         [HttpPut("Actualizar")]
         public void Put([FromBody] Venta venta)
         {
             VentaRepository.UpdateVenta(venta);
         }
 
-        // DELETE api/<VentasController>/5
+        // DELETE api/<VentasController>
         [HttpDelete("Borrar")]
         public void Delete(long id)
         {

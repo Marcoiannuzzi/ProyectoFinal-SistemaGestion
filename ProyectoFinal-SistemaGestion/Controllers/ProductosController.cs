@@ -33,14 +33,14 @@ namespace ProyectoFinal_SistemaGestion.Controllers
             ProductoRepository.CreateProducto(producto);
         }
 
-        // PUT api/<ProductosController>/5
+        // PUT api/<ProductosController>
         [HttpPut("Actualizar")]
         public void Put([FromBody] Producto producto)
         {
             ProductoRepository.UpdateProducto(producto);
         }
 
-        // DELETE api/<ProductosController>/5
+        // DELETE api/<ProductosController>
         [HttpDelete("Borrar")]
         public void Delete(int id)
         {
