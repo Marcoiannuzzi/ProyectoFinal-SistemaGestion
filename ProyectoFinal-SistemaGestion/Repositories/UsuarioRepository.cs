@@ -124,13 +124,12 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Ocurrió un error al obtener el usuario: " + ex.Message);
-                    return null;
-                };
+                    throw new Exception(ex.Message);
+                }
             }
         }
 
-        public static void CreateUsuario(Usuario usuario)
+        public static int CreateUsuario(Usuario usuario)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -151,15 +150,17 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
+
+                    return 1;
                 }
-                catch (Exception ex) 
-                { 
-                    Console.WriteLine(ex.Message); 
-                };
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
         }
 
-        public static void UpdateUsuario(Usuario usuario)
+        public static int UpdateUsuario(Usuario usuario)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -182,15 +183,17 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
+
+                    return 1;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                }
+                    throw new Exception(ex.Message);
+                };
             }
         }
 
-        public static void DeleteUsuario(long id)
+        public static int DeleteUsuario(long id)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -203,10 +206,12 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
+
+                    return 1;
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    throw new Exception(ex.Message);
                 };
 
             }

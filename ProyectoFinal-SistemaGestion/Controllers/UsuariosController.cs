@@ -36,23 +36,50 @@ namespace ProyectoFinal_SistemaGestion.Controllers
 
         // POST api/<UsuariosController>
         [HttpPost("Crear")]
-        public void Post([FromBody] Usuario usuario)
+        public string Post([FromBody] Usuario usuario)
         {
-            UsuarioRepository.CreateUsuario(usuario);
+            var resp = UsuarioRepository.CreateUsuario(usuario);
+
+            if (resp == 1)
+            {
+                return $"El usuario {usuario.Nombre} se ha creado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // PUT api/<UsuariosController>
         [HttpPut("Editar")]
-        public void Put([FromBody] Usuario usuario)
+        public string Put([FromBody] Usuario usuario)
         {
-            UsuarioRepository.UpdateUsuario(usuario);
+            var resp = UsuarioRepository.UpdateUsuario(usuario);
+
+            if (resp == 1)
+            {
+                return $"El usuario {usuario.Nombre} se ha actualizado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // DELETE api/<UsuariosController>/5
         [HttpDelete("Borrar")]
-        public void Delete(long id)
+        public string Delete(long id)
         {
-            UsuarioRepository.DeleteUsuario(id);
+            var resp = UsuarioRepository.DeleteUsuario(id);
+
+            if (resp == 1)
+            {
+                return $"El usuario id: {id} se ha borrado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
     }
 }
