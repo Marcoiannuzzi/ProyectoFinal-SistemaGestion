@@ -28,23 +28,50 @@ namespace ProyectoFinal_SistemaGestion.Controllers
 
         // POST api/<ProductosController>
         [HttpPost("Crear")]
-        public void Post([FromBody] Producto producto)
+        public string Post([FromBody] Producto producto)
         {
-            ProductoRepository.CreateProducto(producto);
+            var resp = ProductoRepository.CreateProducto(producto);
+            if (resp == 1)
+            {
+                return $"El producto {producto.Descripciones} se ha creado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
+
         }
 
         // PUT api/<ProductosController>
         [HttpPut("Actualizar")]
-        public void Put([FromBody] Producto producto)
+        public string Put([FromBody] Producto producto)
         {
-            ProductoRepository.UpdateProducto(producto);
+            var resp = ProductoRepository.UpdateProducto(producto);
+
+            if (resp == 1)
+            {
+                return $"El producto {producto.Descripciones} se ha actualizado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // DELETE api/<ProductosController>
         [HttpDelete("Borrar")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
-            ProductoRepository.DeleteProducto(id);
+            var resp = ProductoRepository.DeleteProducto(id);
+
+            if (resp == 1)
+            {
+                return $"El producto id: {id} se ha borrado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
     }
 }

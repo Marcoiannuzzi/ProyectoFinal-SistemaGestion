@@ -127,7 +127,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
 
         }
 
-        public static void CreateProducto(Producto producto)
+        public static int CreateProducto(Producto producto)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -149,12 +149,17 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     cmd.ExecuteNonQuery();
                     connection.Close();
 
+                    return 1;
+
                 }
-                catch (Exception ex) { Console.WriteLine(ex.Message); };
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                };
             }
         }
 
-        public static void UpdateProducto(Producto producto)
+        public static int UpdateProducto(Producto producto)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -177,9 +182,12 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
-
+                    return 1;
                 }
-                catch (Exception ex) { Console.WriteLine(ex.Message); };
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                };
 
             }
         }
@@ -191,7 +199,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
             UpdateProducto(producto);
         }
 
-        public static void DeleteProducto(long id)
+        public static int DeleteProducto(long id)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -204,9 +212,12 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
-
+                    return 1;
                 }
-                catch (Exception ex) { Console.WriteLine(ex.Message); };
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                };
             }
         }
     }
