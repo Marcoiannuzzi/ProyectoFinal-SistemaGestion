@@ -22,7 +22,7 @@ namespace ProyectoFinal_SistemaGestion.Controllers
         [HttpGet("byUserId")]
         public IEnumerable<Producto> Get(long idUsuario)
         {
-            var resp = ProductoRepository.GetProductosbyId(idUsuario);
+            var resp = ProductoRepository.GetProductosbyUserId(idUsuario);
             return resp;
         }
 

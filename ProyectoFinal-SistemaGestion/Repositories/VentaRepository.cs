@@ -131,13 +131,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                         connection.Close();
 
                         ProductoRepository.UpdateStock(item.Id, item.Stock);
-
-                        ProductoVendidoRepository.Create(new ProductoVendido()
-                        {
-                            IdProducto = item.Id,
-                            IdVenta = numeroVenta,
-                            Stock = item.Stock,
-                        });
+                        
                     }
 
                     return 1;

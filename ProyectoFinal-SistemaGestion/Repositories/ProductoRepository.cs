@@ -46,7 +46,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
 
         }
 
-        public static List<Producto> GetProductosbyId(long idUsuario)
+        public static List<Producto> GetProductosbyUserId(long idUsuario)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
