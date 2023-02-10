@@ -33,6 +33,13 @@ namespace ProyectoFinal_SistemaGestion.Controllers
             VentaRepository.CreateVenta(venta);
         }
 
+        // POST api/<VentasController>
+        [HttpPost("CargarVenta")]
+        public void Post(long idUsuario, [FromBody] List<Producto> productos )
+        {
+            VentaRepository.CargarVenta(idUsuario, productos);
+        }
+
         // PUT api/<VentasController>
         [HttpPut("Actualizar")]
         public void Put([FromBody] Venta venta)

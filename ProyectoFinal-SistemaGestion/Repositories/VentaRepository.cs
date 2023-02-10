@@ -82,24 +82,77 @@ namespace ProyectoFinal_SistemaGestion.Repositories
             }
         }
 
-        public static void CreateVenta(Venta venta)
+        public static long CreateVenta(Venta venta)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)", connection);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario); SELECT @@IDENTITY ", connection);
                     var comentarios = new SqlParameter("Comentarios", venta.Comentarios);
                     var idUsuario = new SqlParameter("IdUsuario", venta.IdUsuario);
                     cmd.Parameters.Add(comentarios);
                     cmd.Parameters.Add(idUsuario);
 
                     connection.Open();
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
+                    return Convert.ToInt64(cmd.ExecuteScalar());
 
                 }
                 catch (Exception ex) { throw new Exception(ex.Message); };
+            }
+        }
+
+        public static void CargarVenta(long idUsuario, List<Producto> productosVendido)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    long numeroVenta = CreateVenta(new Venta()
+                    {
+                        IdUsuario = idUsuario,
+                        Comentarios = ""
+                    });
+
+                    foreach (var item in productosVendido)
+                    {
+                        SqlCommand cmd = new SqlCommand(" INSERT INTO ProductoVendido (Stock, IdProducto,IdVenta) VALUES (@Stock,@IdProducto,@IdVenta)", connection);
+                        var stock = new SqlParameter("Stock", item.Stock);
+                        var idProducto = new SqlParameter("IdProducto", item.Id);
+                        var idVenta = new SqlParameter("IdVenta", numeroVenta);
+
+                        cmd.Parameters.Add(stock);
+                        cmd.Parameters.Add(idProducto);
+                        cmd.Parameters.Add(idVenta);
+
+
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+
+                    }
+
+                    foreach (var item in productosVendido)
+                    {
+                        ProductoRepository.UpdateStock(item.Id, item.Stock);
+                    }
+
+                    foreach (var item in productosVendido)
+                    {
+                        ProductoVendidoRepository.Create(new ProductoVendido()
+                        {
+                            IdProducto = item.Id,
+                            IdVenta = numeroVenta,
+                            Stock = item.Stock,
+                        });
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception();
+                };
             }
         }
 

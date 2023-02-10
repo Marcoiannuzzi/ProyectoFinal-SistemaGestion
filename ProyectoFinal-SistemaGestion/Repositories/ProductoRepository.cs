@@ -89,6 +89,44 @@ namespace ProyectoFinal_SistemaGestion.Repositories
 
         }
 
+        public static Producto GetProductobyId(long id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE Id = @id", connection);
+                    var param = new SqlParameter("id", id);
+                    comando.Parameters.Add(param);
+
+
+                    connection.Open();
+                    SqlDataReader reader = comando.ExecuteReader();
+                    Producto temporalProd = new Producto();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            temporalProd.Id = reader.GetInt64(0);
+                            temporalProd.Descripciones = reader.GetString(1);
+                            temporalProd.Costo = reader.GetDecimal(2);
+                            temporalProd.PrecioDeVenta = reader.GetDecimal(3);
+                            temporalProd.Stock = reader.GetInt32(4);
+                            temporalProd.IdUsuario = reader.GetInt64(5);
+
+                        }
+                    }
+                    return temporalProd;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                };
+            }
+
+        }
+
         public static void CreateProducto(Producto producto)
         {
             using (var connection = new SqlConnection(connectionString))
@@ -144,6 +182,13 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                 catch (Exception ex) { Console.WriteLine(ex.Message); };
 
             }
+        }
+
+        public static void UpdateStock(long id, int cantidadesVendidas)
+        {
+            Producto producto = GetProductobyId(id);
+            producto.Stock -= cantidadesVendidas;
+            UpdateProducto(producto);
         }
 
         public static void DeleteProducto(long id)
