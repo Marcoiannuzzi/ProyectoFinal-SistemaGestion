@@ -28,30 +28,66 @@ namespace ProyectoFinal_SistemaGestion.Controllers
 
         // POST api/<VentasController>
         [HttpPost("Crear")]
-        public void Post([FromBody] Venta venta)
+        public string Post([FromBody] Venta venta)
         {
-            VentaRepository.CreateVenta(venta);
+            var resp = VentaRepository.CreateVenta(venta);
+
+            if (resp == 1)
+            {
+                return $" La Venta se ha creado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // POST api/<VentasController>
         [HttpPost("CargarVenta")]
-        public void Post(long idUsuario, [FromBody] List<Producto> productos )
+        public string Post(long idUsuario, [FromBody] List<Producto> productos )
         {
-            VentaRepository.CargarVenta(idUsuario, productos);
+            var resp = VentaRepository.CargarVenta(idUsuario, productos);
+
+            if (resp == 1)
+            {
+                return $" La Venta se ha cargado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // PUT api/<VentasController>
         [HttpPut("Actualizar")]
-        public void Put([FromBody] Venta venta)
+        public string Put([FromBody] Venta venta)
         {
-            VentaRepository.UpdateVenta(venta);
+            var resp = VentaRepository.UpdateVenta(venta);
+
+            if (resp == 1)
+            {
+                return $" La Venta se ha actualizado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
 
         // DELETE api/<VentasController>
         [HttpDelete("Borrar")]
-        public void Delete(long id)
+        public string Delete(long id)
         {
-            VentaRepository.DeleteVenta(id);
+            var resp = VentaRepository.DeleteVenta(id);
+
+            if (resp == 1)
+            {
+                return $" La Venta se ha borrado correctamente";
+            }
+            else
+            {
+                return "Ha ocurrido un error";
+            }
         }
     }
 }

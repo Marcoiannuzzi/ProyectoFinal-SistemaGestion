@@ -102,7 +102,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
             }
         }
 
-        public static void CargarVenta(long idUsuario, List<Producto> productosVendido)
+        public static int CargarVenta(long idUsuario, List<Producto> productosVendido)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -130,15 +130,8 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                         cmd.ExecuteNonQuery();
                         connection.Close();
 
-                    }
-
-                    foreach (var item in productosVendido)
-                    {
                         ProductoRepository.UpdateStock(item.Id, item.Stock);
-                    }
 
-                    foreach (var item in productosVendido)
-                    {
                         ProductoVendidoRepository.Create(new ProductoVendido()
                         {
                             IdProducto = item.Id,
@@ -147,7 +140,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                         });
                     }
 
-
+                    return 1;
                 }
                 catch (Exception ex)
                 {
@@ -156,7 +149,7 @@ namespace ProyectoFinal_SistemaGestion.Repositories
             }
         }
 
-        public static void UpdateVenta(Venta venta)
+        public static int UpdateVenta(Venta venta)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -175,12 +168,14 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     cmd.ExecuteNonQuery();
                     connection.Close();
 
+                    return 1;
+
                 }
                 catch (Exception ex) { throw new Exception(ex.Message); };
             }
         }
 
-        public static void DeleteVenta(long id)
+        public static int DeleteVenta(long id)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -193,6 +188,8 @@ namespace ProyectoFinal_SistemaGestion.Repositories
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     connection.Close();
+
+                    return 1;
 
                 }
                 catch (Exception ex) { throw new Exception(ex.Message); };
